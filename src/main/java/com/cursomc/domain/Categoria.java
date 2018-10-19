@@ -1,11 +1,14 @@
 package com.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Categoria implements Serializable{
@@ -14,12 +17,13 @@ public class Categoria implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	
+	private Integer id;	
 	private String nome;
 	
-	public Categoria() {
-		
+	@ManyToMany(mappedBy="categorias")
+	private List<Produto> produtos = new ArrayList<>();
+	
+	public Categoria() {		
 	}
 
 	public Categoria(Integer id, String nome) {
@@ -42,6 +46,14 @@ public class Categoria implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 
 	@Override
@@ -67,7 +79,6 @@ public class Categoria implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-	
+	}	
 	
 }
